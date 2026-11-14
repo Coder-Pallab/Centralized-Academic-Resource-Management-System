@@ -1,0 +1,23 @@
+{
+  "name": "centralized-academic-resource-management-system",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Centralized Academic Resources Management System (CARMS) - MERN Stack",
+  "scripts": {
+    "dev:frontend": "npm --prefix frontend run dev",
+    "build:frontend": "npm --prefix frontend run build",
+    "preview:frontend": "npm --prefix frontend run preview",
+    "dev:backend": "npm --prefix backend run dev",
+    "start:backend": "npm --prefix backend start"
+  },
+  "keywords": [
+    "academic-resources",
+    "mern",
+    "react",
+    "nodejs",
+    "education-management"
+  ],
+  "author": "",
+  "license": "ISC"
+}
+

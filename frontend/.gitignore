@@ -1,0 +1,85 @@
+# ==============================================================================
+# Git Ignore Configuration for CARMS (MERN Stack Web Application)
+# Covers Root, frontend/ (Vite + React), and backend/ (Node.js + Express)
+# ==============================================================================
+
+# Dependencies
+node_modules/
+*/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.pnpm-store/
+
+# Production Builds & Bundler Caches
+dist/
+dist-ssr/
+build/
+out/
+*/dist/
+*/build/
+.vite/
+*/.vite/
+.vite-temp/
+*/.vite-temp/
+.cache/
+*/.cache/
+.parcel-cache/
+.turbo/
+.eslintcache
+
+# Environment Variables & Secrets (CRITICAL for security)
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+*.env
+*.env.*
+# Allow tracking example environment configuration templates:
+!.env.example
+!frontend/.env.example
+!backend/.env.example
+
+# Local Uploads & Temp Storage (Cloudinary/Multer staging)
+backend/uploads/
+uploads/
+temp/
+tmp/
+*.tmp
+
+# Unit Testing & Coverage
+coverage/
+*/coverage/
+*.lcov
+.nyc_output
+
+# IDE, Editors & OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+[Dd]esktop.ini
+
+# Visual Studio Code & JetBrains
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.bak
+*~
