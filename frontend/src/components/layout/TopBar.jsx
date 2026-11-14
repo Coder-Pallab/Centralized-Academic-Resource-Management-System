@@ -16,6 +16,7 @@ import {
   Briefcase,
   GraduationCap,
   Sparkles,
+  X,
 } from 'lucide-react';
 import { useTheme } from '../../hooks/useTheme';
 import { setRole, logout } from '../../store/slices/authSlice';
@@ -31,6 +32,7 @@ export default function TopBar({ onMenuClick }) {
   const navigate = useNavigate();
 
   const [searchQuery, setSearchQuery] = useState('');
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showRoleMenu, setShowRoleMenu] = useState(false);
@@ -59,6 +61,7 @@ export default function TopBar({ onMenuClick }) {
     e.preventDefault();
     if (searchQuery.trim()) {
       navigate(`/student/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      setMobileSearchOpen(false);
     }
   };
 
@@ -76,18 +79,29 @@ export default function TopBar({ onMenuClick }) {
   };
 
   return (
-    <header className="sticky top-0 z-20 h-16 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 transition-colors">
-      <div className="h-full px-4 sm:px-6 flex items-center justify-between gap-4">
+    <header className="sticky top-0 z-20 h-16 w-full bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 transition-colors">
+      <div className="h-full px-3 sm:px-6 flex items-center justify-between gap-2 sm:gap-4 max-w-7xl mx-auto">
         {/* Left: Mobile hamburger & Search */}
-        <div className="flex items-center gap-3 flex-1 max-w-xl">
+        <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0 max-w-xl">
           <button
             onClick={onMenuClick}
-            className="md:hidden p-2 rounded-lg text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            className="md:hidden p-2 rounded-xl text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex-shrink-0"
             aria-label="Open Navigation Menu"
           >
             <Menu className="w-5 h-5" />
           </button>
 
+          {/* Mobile Title brand if space allows */}
+          <div className="md:hidden flex items-center gap-1.5 flex-shrink-0">
+            <div className="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-xs">
+              <GraduationCap className="w-4 h-4" />
+            </div>
+            <span className="font-extrabold text-sm tracking-tight text-gray-900 dark:text-white">
+              CARMS
+            </span>
+          </div>
+
+          {/* Desktop Search form */}
           <form onSubmit={handleSearchSubmit} className="relative w-full hidden sm:block">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
@@ -101,8 +115,17 @@ export default function TopBar({ onMenuClick }) {
         </div>
 
         {/* Right Action Icons */}
-        <div className="flex items-center gap-2 sm:gap-3">
-          {/* Quick Role Switcher (For Demo & Seamless Role Inspection) */}
+        <div className="flex items-center gap-1 sm:gap-3 flex-shrink-0">
+          {/* Mobile Search Toggle Icon */}
+          <button
+            onClick={() => setMobileSearchOpen(!mobileSearchOpen)}
+            className="sm:hidden p-2 rounded-xl text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            title="Search"
+          >
+            <Search className="w-5 h-5" />
+          </button>
+
+          {/* Quick Role Switcher (Desktop & Tablet) */}
           <div className="relative" ref={roleRef}>
             <button
               onClick={() => setShowRoleMenu(!showRoleMenu)}
@@ -117,7 +140,7 @@ export default function TopBar({ onMenuClick }) {
             </button>
 
             {showRoleMenu && (
-              <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-900 rounded-xl shadow-xl border border-gray-200 dark:border-gray-800 py-1 z-50 text-xs">
+              <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-900 rounded-xl shadow-xl border border-gray-200 dark:border-gray-800 py-1 z-50 text-xs animate-fade-in">
                 <div className="px-3 py-2 text-[11px] font-semibold text-gray-400 uppercase tracking-wider border-b border-gray-100 dark:border-gray-800">
                   Switch Active Role
                 </div>
@@ -176,8 +199,8 @@ export default function TopBar({ onMenuClick }) {
             </button>
 
             {showNotifications && (
-              <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-800 z-50 overflow-hidden">
-                <div className="p-4 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
+              <div className="absolute right-0 mt-2 w-[calc(100vw-1.5rem)] sm:w-96 max-w-sm bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-800 z-50 overflow-hidden animate-fade-in">
+                <div className="p-3.5 sm:p-4 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
                   <div>
                     <h3 className="font-semibold text-gray-900 dark:text-gray-100 text-sm">Notifications</h3>
                     <p className="text-xs text-gray-400">{unreadCount} unread messages</p>
@@ -202,11 +225,11 @@ export default function TopBar({ onMenuClick }) {
                         if (n.link) navigate(n.link);
                         setShowNotifications(false);
                       }}
-                      className={`p-3.5 hover:bg-gray-50 dark:hover:bg-gray-800/70 cursor-pointer transition-colors ${
+                      className={`p-3 sm:p-3.5 hover:bg-gray-50 dark:hover:bg-gray-800/70 cursor-pointer transition-colors ${
                         !n.read ? 'bg-blue-50/40 dark:bg-blue-950/20' : ''
                       }`}
                     >
-                      <div className="flex items-start gap-3">
+                      <div className="flex items-start gap-2.5">
                         <div className="w-2 h-2 mt-1.5 rounded-full bg-blue-500 flex-shrink-0" style={{ opacity: n.read ? 0 : 1 }} />
                         <div className="flex-1 min-w-0">
                           <p className="text-xs font-semibold text-gray-900 dark:text-gray-100 truncate">
@@ -257,7 +280,7 @@ export default function TopBar({ onMenuClick }) {
             </button>
 
             {showUserMenu && (
-              <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-800 py-1.5 z-50">
+              <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-800 py-1.5 z-50 animate-fade-in">
                 <div className="px-4 py-3 border-b border-gray-100 dark:border-gray-800">
                   <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">
                     {user?.name || 'Academic User'}
@@ -310,6 +333,29 @@ export default function TopBar({ onMenuClick }) {
           </div>
         </div>
       </div>
+
+      {/* Mobile Search Overlay Bar */}
+      {mobileSearchOpen && (
+        <div className="sm:hidden px-3 py-2 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 flex items-center gap-2 animate-fade-in">
+          <form onSubmit={handleSearchSubmit} className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <input
+              type="text"
+              autoFocus
+              placeholder="Search notes, PYQs, subjects..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-9 pr-3 py-1.5 text-xs bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </form>
+          <button
+            onClick={() => setMobileSearchOpen(false)}
+            className="p-1.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      )}
     </header>
   );
 }

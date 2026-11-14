@@ -49,8 +49,8 @@ export default function BottomNav() {
       : studentTabs;
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-gray-200 dark:border-gray-800 px-2 py-1 safe-area-pb">
-      <div className="flex items-center justify-around">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-gray-200 dark:border-gray-800 px-1 py-1.5 safe-area-pb shadow-lg">
+      <div className="flex items-center justify-around max-w-lg mx-auto">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           return (
@@ -58,7 +58,7 @@ export default function BottomNav() {
               key={tab.to}
               to={tab.to}
               className={({ isActive }) =>
-                `relative flex flex-col items-center justify-center py-1 px-2 min-w-[56px] text-[10px] font-medium transition-colors ${
+                `relative flex flex-col items-center justify-center py-1 px-1.5 min-w-[52px] text-[10px] font-medium transition-colors ${
                   isActive
                     ? 'text-blue-600 dark:text-blue-400 font-bold'
                     : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
@@ -75,7 +75,7 @@ export default function BottomNav() {
                       </span>
                     )}
                   </div>
-                  <span className="mt-0.5 truncate">{tab.label}</span>
+                  <span className="mt-0.5 truncate text-[10px] tracking-tight">{tab.label}</span>
                 </>
               )}
             </NavLink>
